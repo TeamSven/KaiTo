@@ -27,6 +27,10 @@
             android:name=".HomeActivity_"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity
+            android:name=".NewKadaiActivity_"
+            android:label="@string/title_activity_new_kadai" >
+        </activity>
     </application>
 
 </manifest>

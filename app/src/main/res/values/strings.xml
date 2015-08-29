@@ -7,4 +7,5 @@
     <string name="title_activity_home">Home</string>
     <string name="LoginBtn">Login</string>
     <string name="SignupBtn">Sign Up</string>
+    <string name="title_activity_new_kadai">Add</string>
 </resources>

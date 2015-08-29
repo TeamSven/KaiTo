@@ -34,4 +34,14 @@
         <item name="android:background">@color/toolbar_bg</item>
     </style>
 
+    <style name="floatingActionButtonStyle">
+        <item name="android:layout_margin">@dimen/fab_compat_margin</item>
+        <item name="android:src">@drawable/add</item>
+        <item name="borderWidth">0dp</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="elevation">6dp</item>
+        <item name="pressedTranslationZ">12dp</item>
+
+    </style>
+
 </resources>

@@ -1,44 +1,33 @@
 package io.github.dnivra26.kaito;
 
-import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_home)
-public class HomeActivity extends AppCompatActivity {
-
+@EActivity(R.layout.activity_new_kadai)
+public class NewKadaiActivity extends AppCompatActivity {
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
-    @ViewById(R.id.create_new_kadai_fab)
-    FloatingActionButton floatingActionButton;
 
     @AfterViews
     public void setupToolbar() {
         if (toolbar != null) {
-            toolbar.setTitle(getResources().getString(R.string.title_activity_home));
+            toolbar.setTitle(getResources().getString(R.string.title_activity_new_kadai));
             setSupportActionBar(toolbar);
         }
-    }
-
-    @Click(R.id.create_new_kadai_fab)
-    public void createNewKadai() {
-        startActivity(new Intent(HomeActivity.this, NewKadaiActivity_.class));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_new_kadai, menu);
         return true;
     }
 

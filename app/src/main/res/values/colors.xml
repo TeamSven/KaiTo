@@ -3,5 +3,6 @@
     <color name="buttonNormal">#009688</color>
     <color name="base">#009688</color>
     <color name="text">#FFFFFF</color>
-    <color name="toolbar_bg">#004D40</color>
+    <color name="toolbar_bg">#00695C</color>
+    <color name="add_new_kadai">#00695C</color>
 </resources>
