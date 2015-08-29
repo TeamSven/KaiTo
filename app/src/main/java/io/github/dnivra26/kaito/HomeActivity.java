@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,12 +21,18 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
+import io.github.dnivra26.kaito.models.KadaiListAdapter;
+import io.github.dnivra26.kaito.models.Vandi;
+
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity {
-
-
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
+
+    @ViewById(R.id.kadai_list)
+    ListView kadaiList;
 
     @ViewById(R.id.create_new_kadai_fab)
     FloatingActionButton floatingActionButton;
@@ -34,6 +43,25 @@ public class HomeActivity extends AppCompatActivity {
             toolbar.setTitle(getResources().getString(R.string.title_activity_home));
             setSupportActionBar(toolbar);
         }
+
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+        KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this);
+        kadaiListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Vandi>() {
+            @Override
+            public void onLoading() {
+                progressDialog.show();
+            }
+
+            @Override
+            public void onLoaded(List<Vandi> list, Exception e) {
+                if (list.size() > 0) {
+                    //noActiveIssuesLabel.setVisibility(View.GONE);
+                }
+                progressDialog.dismiss();
+            }
+        });
+        kadaiList.setAdapter(kadaiListAdapter);
+        this.getSupportActionBar().setTitle("Active Tasks");
     }
 
     @Click(R.id.create_new_kadai_fab)
