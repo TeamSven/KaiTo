@@ -12,4 +12,6 @@
     <string name="action_submit">Submit</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_vandi_detail">Shop Detail</string>
+    <string name="action_nearby">Nearby</string>
+>>>>>>> fd1c654093f7c1b8cc8fa5322bd40e1ba3e4e5cc
 </resources>

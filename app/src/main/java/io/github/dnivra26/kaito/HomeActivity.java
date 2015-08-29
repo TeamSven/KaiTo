@@ -70,7 +70,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        this.getSupportActionBar().setTitle("Active Tasks");
     }
 
     @Click(R.id.create_new_kadai_fab)
@@ -115,6 +114,8 @@ public class HomeActivity extends AppCompatActivity {
             });
 
             return true;
+        } else if (id == R.id.action_nearby) {
+            startActivity(new Intent(this, MapActivity_.class));
         }
 
         return super.onOptionsItemSelected(item);
