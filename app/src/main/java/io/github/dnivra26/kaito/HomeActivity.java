@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,7 +60,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         kadaiList.setAdapter(kadaiListAdapter);
-        this.getSupportActionBar().setTitle("Active Tasks");
     }
 
     @Click(R.id.create_new_kadai_fab)
@@ -106,6 +104,8 @@ public class HomeActivity extends AppCompatActivity {
             });
 
             return true;
+        } else if (id == R.id.action_nearby) {
+            startActivity(new Intent(this, MapActivity_.class));
         }
 
         return super.onOptionsItemSelected(item);
