@@ -1,11 +1,17 @@
 package io.github.dnivra26.kaito;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -50,7 +56,27 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+            progressDialog.show();
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(getApplicationContext(),
+                                "Successfully Logged Out",
+                                Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(HomeActivity.this, LoginSignupActivity_.class));
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Log Out Error", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    progressDialog.dismiss();
+                }
+            });
+
             return true;
         }
 
