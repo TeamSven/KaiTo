@@ -10,6 +10,7 @@ public class KaiToApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "UpGUiLqb4Kz2IbuNGRxloKbEnZmR6aUExSSucmSd", "B3oYsXxVZoBaqw3VQPSodhO2VuOrVnmAvCOoxwBu");
 
         ParseUser.enableAutomaticUser();
