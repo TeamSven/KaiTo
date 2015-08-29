@@ -10,7 +10,7 @@ public class UiUtil {
     public static CircularProgressDrawable getProgressDrawable(Context context) {
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable
                 .Builder(context)
-                .color(context.getResources().getColor(R.color.base_blue))
+                .color(context.getResources().getColor(R.color.base))
                 .sweepSpeed(1f)
                 .strokeWidth(4)
                 .style(CircularProgressDrawable.Style.ROUNDED).build();

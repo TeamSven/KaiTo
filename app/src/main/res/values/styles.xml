@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
 
@@ -11,7 +11,7 @@
     </style>
 
     <style name="CustomAlertDialogStyle">
-        <item name="android:startColor">@color/base_blue</item>
+        <item name="android:startColor">@color/base</item>
         <item name="android:bottomBright">@android:color/transparent</item>
         <item name="android:bottomDark">@android:color/transparent</item>
         <item name="android:bottomMedium">@android:color/transparent</item>
@@ -26,5 +26,12 @@
 
     </style>
 
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text</item>
+        <item name="actionModeBackground">@color/toolbar_bg</item>
+        <item name="background">@color/toolbar_bg</item>
+        <item name="android:background">@color/toolbar_bg</item>
+    </style>
 
 </resources>

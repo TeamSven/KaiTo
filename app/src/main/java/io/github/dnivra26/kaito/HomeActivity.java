@@ -1,13 +1,28 @@
 package io.github.dnivra26.kaito;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity {
+
+
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+
+    @AfterViews
+    public void setupToolbar() {
+        if (toolbar != null) {
+            toolbar.setTitle(getResources().getString(R.string.title_activity_home));
+            setSupportActionBar(toolbar);
+        }
+    }
 
 
     @Override

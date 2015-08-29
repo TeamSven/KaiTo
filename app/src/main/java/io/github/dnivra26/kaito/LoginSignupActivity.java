@@ -3,6 +3,7 @@ package io.github.dnivra26.kaito;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -28,6 +30,17 @@ public class LoginSignupActivity extends AppCompatActivity {
 
     @ViewById(R.id.password)
     EditText passwordEditText;
+
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+
+    @AfterViews
+    public void setupToolbar() {
+        if (toolbar != null) {
+            toolbar.setTitle(getResources().getString(R.string.title_activity_login_signup));
+            setSupportActionBar(toolbar);
+        }
+    }
 
     @Click(R.id.login)
     public void login() {
