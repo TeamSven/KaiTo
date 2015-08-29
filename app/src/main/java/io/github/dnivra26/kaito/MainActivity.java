@@ -1,34 +1,37 @@
 package io.github.dnivra26.kaito;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseUser;
 
-@EActivity(R.layout.activity_main)
+
 public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @AfterViews
-    public void init() {
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+            Intent intent = new Intent(MainActivity.this,
+                    LoginSignupActivity_.class);
+            startActivity(intent);
+            finish();
+        } else {
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                Intent intent = new Intent(MainActivity.this, HomeActivity_.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(MainActivity.this,
+                        LoginSignupActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 }

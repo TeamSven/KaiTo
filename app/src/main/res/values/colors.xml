@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="buttonNormal">#009688</color>
+    <color name="base">#009688</color>
+    <color name="text">#FFFFFF</color>
+    <color name="toolbar_bg">#004D40</color>
+</resources>
