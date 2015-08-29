@@ -1,4 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+    }
+}
+
+
 
 android {
     compileSdkVersion 22
@@ -21,5 +30,17 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:22.2.1'
+
     compile 'com.android.support:appcompat-v7:22.2.1'
+
+    provided 'org.projectlombok:lombok:1.16.4'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+
+    compile "org.androidannotations:androidannotations-api:3.3.1"
+    apt "org.androidannotations:androidannotations:3.3.1"
+
+    compile 'com.android.support:design:22.2.1'
+    compile 'com.parse.bolts:bolts-android:1.+'
+
 }
