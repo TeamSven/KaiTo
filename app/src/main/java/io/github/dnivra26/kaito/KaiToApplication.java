@@ -8,6 +8,8 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import io.github.dnivra26.kaito.models.Vandi;
+import io.github.dnivra26.kaito.models.VandiRating;
+import io.github.dnivra26.kaito.models.VandiReview;
 
 public class KaiToApplication extends Application {
     @Override
@@ -25,5 +27,7 @@ public class KaiToApplication extends Application {
         ParseACL.setDefaultACL(defaultACL, true);
 
         ParseObject.registerSubclass(Vandi.class);
+        ParseObject.registerSubclass(VandiReview.class);
+        ParseObject.registerSubclass(VandiRating.class);
     }
 }
