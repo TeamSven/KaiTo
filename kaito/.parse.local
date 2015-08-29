@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "kaito"
+    },
+    "kaito": {
+      "applicationId": "UpGUiLqb4Kz2IbuNGRxloKbEnZmR6aUExSSucmSd"
+    }
+  }
+}
