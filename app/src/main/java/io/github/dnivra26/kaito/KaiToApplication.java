@@ -4,7 +4,10 @@ import android.app.Application;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import io.github.dnivra26.kaito.models.Vandi;
 
 public class KaiToApplication extends Application {
     @Override
@@ -20,5 +23,7 @@ public class KaiToApplication extends Application {
         defaultACL.setPublicWriteAccess(true);
 
         ParseACL.setDefaultACL(defaultACL, true);
+
+        ParseObject.registerSubclass(Vandi.class);
     }
 }
