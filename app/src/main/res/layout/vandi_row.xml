@@ -34,4 +34,13 @@
         android:layout_below="@+id/vandi_name"
         android:layout_toRightOf="@id/vandi_image"
         tools:text="Location has not been provided yet" />
+
+    <RatingBar
+        android:id="@+id/vandi_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:layout_below="@+id/vandi_location"
+        android:layout_toRightOf="@id/vandi_image"/>
+
 </RelativeLayout>

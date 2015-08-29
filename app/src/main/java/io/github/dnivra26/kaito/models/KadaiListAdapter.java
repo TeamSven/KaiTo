@@ -3,6 +3,7 @@ package io.github.dnivra26.kaito.models;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.parse.GetDataCallback;
@@ -57,6 +58,10 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         TextView vandiLocation = (TextView) v
                 .findViewById(R.id.vandi_location);
         vandiLocation.setText(vandi.getLocation().toString());
+
+        // Star Rating
+        RatingBar vandiRating = (RatingBar) v.findViewById(R.id.vandi_rating);
+        vandiRating.setRating((float)vandi.getAvgRating());
 
         return v;
     }
