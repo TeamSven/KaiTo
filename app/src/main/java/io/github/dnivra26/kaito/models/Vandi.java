@@ -1,6 +1,8 @@
 package io.github.dnivra26.kaito.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -20,12 +22,20 @@ public class Vandi extends ParseObject {
         put("name", name);
     }
 
-    public String getLocation() {
-        return getString("location");
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint("location");
     }
 
-    public void setLocation(String location) {
+    public void setLocation(ParseGeoPoint location) {
         put("location", location);
+    }
+
+    public ParseFile getPhotoFile() {
+        return getParseFile("photo");
+    }
+
+    public void setPhotoFile(ParseFile photo) {
+        put("photo", photo);
     }
 
     public void setSpiceLevel(int level) {

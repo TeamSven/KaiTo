@@ -25,11 +25,6 @@ public class FoodItem extends ParseObject {
         return getInt("prince");
     }
 
-    public void setVandi(Vandi vandi) {
-        setVandiId(vandi.getObjectId());
-        put("vandi", vandi);
-    }
-
     public void setTotalRating(int totalRating) {
         put("totalRating", totalRating);
     }
@@ -46,6 +41,10 @@ public class FoodItem extends ParseObject {
         return getInt("numberOfRating");
     }
 
+    public void setVandi(Vandi vandi) {
+        setVandiId(vandi.getObjectId());
+        put("vandi", vandi);
+    }
 
     public Vandi getVandi() {
         return (Vandi) getParseObject("vandi");
