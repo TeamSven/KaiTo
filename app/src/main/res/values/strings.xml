@@ -10,4 +10,5 @@
     <string name="title_activity_new_kadai">Add</string>
     <string name="action_logout">Logout</string>
     <string name="action_submit">Submit</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
