@@ -38,17 +38,17 @@ public class FoodItemAdapter extends ParseQueryAdapter<FoodItem> {
         }
         super.getItemView(item, v, parent);
 
-        // Setting name
-        TextView itemName = (TextView) v.findViewById(R.id.item_name);
-        itemName.setText(item.getName());
-
-        // Setting price
-        TextView itemPrice = (TextView) v.findViewById(R.id.item_price);
-        itemName.setText(String.valueOf(item.getPrice()));
-
-        // Star Rating
-        RatingBar itemRating = (RatingBar) v.findViewById(R.id.item_rating);
-        itemRating.setRating((float)item.getTotalRating()/item.getNumberOfRating());
+//        // Setting name
+//        TextView itemName = (TextView) v.findViewById(R.id.item_name);
+//        itemName.setText(item.getName());
+//
+//        // Setting price
+//        TextView itemPrice = (TextView) v.findViewById(R.id.item_price);
+//        itemName.setText(String.valueOf(item.getPrice()));
+//
+//        // Star Rating
+//        RatingBar itemRating = (RatingBar) v.findViewById(R.id.item_rating);
+//        itemRating.setRating((float)item.getTotalRating()/item.getNumberOfRating());
 
         return v;
     }

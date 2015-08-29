@@ -1,11 +1,20 @@
 package io.github.dnivra26.kaito;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -14,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
@@ -98,6 +108,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Zoom in the Google Map
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.marker_layout, null);
+        final TextView foodName = (TextView) v.findViewById(R.id.food_name);
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi").whereWithinKilometers("location", new ParseGeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 2);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -105,9 +120,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (e == null) {
                     for (ParseObject parseObject : list) {
                         Vandi vandi = (Vandi) parseObject;
+
                         ParseGeoPoint location = vandi.getLocation();
+                        foodName.setText(vandi.getName());
                         googleMap.addMarker(new MarkerOptions()
                                 .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                                .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(MapActivity.this, foodName)))
                                 .title(vandi.getName()));
                     }
                 }
@@ -124,6 +142,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    public static Bitmap createDrawableFromView(Context context, View view) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay()
+                .getMetrics(displayMetrics);
+        view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels,
+                displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+
     }
 
     @Override
