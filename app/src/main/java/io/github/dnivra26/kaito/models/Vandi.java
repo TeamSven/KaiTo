@@ -46,11 +46,11 @@ public class Vandi extends ParseObject {
         return getInt("spiceLevel");
     }
 
-    public void setAvgRating(float avgRating){ put("avgRating", avgRating); }
+    public void setAvgRating(double avgRating){ put("avgRating", avgRating); }
 
-    public float getAvgRating()
+    public double getAvgRating()
     {
-      return getLong("avgRating");
+      return getDouble("avgRating");
     }
 
 }
