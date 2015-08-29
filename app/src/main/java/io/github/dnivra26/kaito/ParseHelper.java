@@ -8,9 +8,12 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import io.github.dnivra26.kaito.models.FoodItem;
+import io.github.dnivra26.kaito.models.FoodRating;
 import io.github.dnivra26.kaito.models.Vandi;
 import io.github.dnivra26.kaito.models.VandiRating;
 import io.github.dnivra26.kaito.models.VandiReview;
+import io.github.dnivra26.kaito.view_models.MenuItemPojo;
 import io.github.dnivra26.kaito.view_models.VandiPojo;
 
 public class ParseHelper {
@@ -48,6 +51,26 @@ public class ParseHelper {
                                                 @Override
                                                 public void done(ParseException e) {
                                                     if (e == null) {
+                                                        for (final MenuItemPojo menuItemPojo : vandiPojo.getMenuItems()) {
+                                                            final FoodItem foodItem = new FoodItem();
+                                                            foodItem.setVandi(vandi);
+                                                            foodItem.setVandiId(vandi.getObjectId());
+                                                            foodItem.setName(menuItemPojo.getName());
+                                                            foodItem.setPrice(menuItemPojo.getPrice());
+                                                            foodItem.saveInBackground(new SaveCallback() {
+                                                                @Override
+                                                                public void done(ParseException e) {
+                                                                    if (e == null) {
+                                                                        FoodRating foodRating = new FoodRating();
+                                                                        foodRating.setFoodItem(foodItem);
+                                                                        foodRating.setFoodItemId(foodItem.getObjectId());
+                                                                        foodRating.setUser(ParseUser.getCurrentUser());
+                                                                        foodRating.setRating((int) menuItemPojo.getRating());
+                                                                        foodRating.saveInBackground();
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
                                                         kadaiCreationCallback.onSuccess();
                                                     } else {
                                                         kadaiCreationCallback.onFailure();

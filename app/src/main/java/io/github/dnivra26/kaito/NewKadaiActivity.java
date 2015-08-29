@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.parse.ParseFile;
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,7 +38,7 @@ import io.github.dnivra26.kaito.view_models.MenuItemPojo;
 import io.github.dnivra26.kaito.view_models.VandiPojo;
 
 @EActivity(R.layout.activity_new_kadai)
-public class NewKadaiActivity extends AppCompatActivity implements KadaiCreationCallback {
+public class NewKadaiActivity extends AppCompatActivity implements KadaiCreationCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static final int IMAGE_REQUEST_CODE = 111;
     @ViewById(R.id.toolbar)
@@ -67,13 +72,24 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
     private byte[] imageViewByteArray;
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
+    private GoogleApiClient mGoogleApiClient;
 
     @AfterViews
     public void setupToolbar() {
+        buildGoogleApiClient();
         if (toolbar != null) {
             toolbar.setTitle(getResources().getString(R.string.title_activity_new_kadai));
             setSupportActionBar(toolbar);
         }
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
     }
 
     @Click(R.id.kadai_image)
@@ -176,4 +192,22 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
     }
 
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            kadaiLocation.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
 }

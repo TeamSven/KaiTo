@@ -59,5 +59,22 @@ vandiRatingQuery.equalTo("user",userId)({
 	}
 
 });
+                 
+          var vandi = Parse.Object.extend("Vandi");
+          var vandiQuery = new Parse.Query(vandi);
+          vandiQuery.get(vandiId, {
+          success: function(vandiObj) {
+                        // The object was retrieved successfully.
+                        var currRating = vandiObj.getDouble("avgRating");
+                        var newRating = ((currRating*(count1-1))+rating)/count1;
+                        vandiObj.set("avgRating",newRating);
+                        vandiObj.save();
+                  },
+                  error: function(object, error) {
+                        // The object was not retrieved successfully.
+                        // error is a Parse.Error with an error code and message
+                  }
+                });
+});
 
-}
+

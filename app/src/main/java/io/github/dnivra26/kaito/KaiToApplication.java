@@ -7,6 +7,8 @@ import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import io.github.dnivra26.kaito.models.FoodItem;
+import io.github.dnivra26.kaito.models.FoodRating;
 import io.github.dnivra26.kaito.models.Vandi;
 import io.github.dnivra26.kaito.models.VandiRating;
 import io.github.dnivra26.kaito.models.VandiReview;
@@ -29,5 +31,7 @@ public class KaiToApplication extends Application {
         ParseObject.registerSubclass(Vandi.class);
         ParseObject.registerSubclass(VandiReview.class);
         ParseObject.registerSubclass(VandiRating.class);
+        ParseObject.registerSubclass(FoodItem.class);
+        ParseObject.registerSubclass(FoodRating.class);
     }
 }
