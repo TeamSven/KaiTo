@@ -98,7 +98,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Zoom in the Google Map
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi").whereWithinKilometers("location", new ParseGeoPoint(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 2);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
