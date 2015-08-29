@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -38,6 +39,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import io.github.dnivra26.kaito.models.FoodItem;
 import io.github.dnivra26.kaito.models.Vandi;
 
 @EActivity(R.layout.activity_map)
@@ -119,14 +121,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
                     for (ParseObject parseObject : list) {
-                        Vandi vandi = (Vandi) parseObject;
+                        final Vandi vandi = (Vandi) parseObject;
 
-                        ParseGeoPoint location = vandi.getLocation();
-                        foodName.setText(vandi.getName());
-                        googleMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                                .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(MapActivity.this, foodName)))
-                                .title(vandi.getName()));
+                        ParseQuery.getQuery("FoodItem").whereEqualTo("vandiId", vandi.getObjectId()).addDescendingOrder("rating").getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                ParseGeoPoint location = vandi.getLocation();
+                                FoodItem fo = (FoodItem) parseObject;
+                                if (fo != null)
+                                    foodName.setText(fo.getName());
+
+
+                                googleMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                                        .icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(MapActivity.this, foodName)))
+                                        .title(vandi.getName()));
+                            }
+                        });
+
                     }
                 }
             }
