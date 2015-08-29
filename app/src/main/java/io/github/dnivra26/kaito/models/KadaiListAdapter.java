@@ -62,7 +62,7 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         // Star Rating
         RatingBar vandiRating = (RatingBar) v.findViewById(R.id.vandi_rating);
         vandiRating.setRating((float)vandi.getAvgRating());
-
+        
         return v;
     }
 }

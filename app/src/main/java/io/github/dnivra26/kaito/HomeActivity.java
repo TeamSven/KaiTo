@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
-        KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this);
+        final KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this);
         kadaiListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Vandi>() {
             @Override
             public void onLoading() {
@@ -61,6 +62,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         kadaiList.setAdapter(kadaiListAdapter);
+        kadaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HomeActivity.this, VandiDetailActivity_.class);
+                intent.putExtra("vandi_id", kadaiListAdapter.getItem(position).getObjectId());
+                startActivity(intent);
+            }
+        });
         this.getSupportActionBar().setTitle("Active Tasks");
     }
 
