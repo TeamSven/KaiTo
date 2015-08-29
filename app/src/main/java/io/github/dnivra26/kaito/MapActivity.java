@@ -1,15 +1,15 @@
 package io.github.dnivra26.kaito;
 
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -31,23 +31,32 @@ import java.util.List;
 import io.github.dnivra26.kaito.models.Vandi;
 
 @EActivity(R.layout.activity_map)
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildGoogleApiClient();
+    }
 
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
     }
 
 
     @AfterViews
     public void setupToolbar() {
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+
         if (toolbar != null) {
             toolbar.setTitle(getResources().getString(R.string.title_activity_map));
             setSupportActionBar(toolbar);
@@ -79,42 +88,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         googleMap.setMyLocationEnabled(true);
-        // Get LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // Create a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Get the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        // Get Current Location
-        Location myLocation = locationManager.getLastKnownLocation(provider);
-
-        //set map type
-        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
-        // Get latitude of the current location
-        double latitude = myLocation.getLatitude();
-
-        // Get longitude of the current location
-        double longitude = myLocation.getLongitude();
 
         // Create a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
+        LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
         // Show the current location in Google Map
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // Zoom in the Google Map
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
-                    Log.d("Vandi", list.size() + " hi");
                     for (ParseObject parseObject : list) {
                         Vandi vandi = (Vandi) parseObject;
                         ParseGeoPoint location = vandi.getLocation();
@@ -126,6 +114,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 }
