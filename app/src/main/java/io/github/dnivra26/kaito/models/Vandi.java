@@ -27,4 +27,12 @@ public class Vandi extends ParseObject {
     public void setLocation(String location) {
         put("location", location);
     }
+
+    public void setSpiceLevel(int level) {
+        put("spiceLevel", level);
+    }
+    
+    public void set(int level) {
+        put("spiceLevel", level);
+    }
 }

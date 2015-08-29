@@ -30,6 +30,23 @@ public class FoodItem extends ParseObject {
         put("vandi", vandi);
     }
 
+    public void setTotalRating(int totalRating) {
+        put("totalRating", totalRating);
+    }
+
+    public int getTotalRating() {
+        return getInt("totalRating");
+    }
+
+    public void setNumberOfRating(int numberOfRating) {
+        put("numberOfRating", numberOfRating);
+    }
+
+    public int getNumberOfRating() {
+        return getInt("numberOfRating");
+    }
+
+
     public Vandi getVandi() {
         return (Vandi) getParseObject("vandi");
     }
