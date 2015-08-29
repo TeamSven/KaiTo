@@ -1,5 +1,6 @@
 package io.github.dnivra26.kaito;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -14,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseFile;
 
@@ -23,9 +26,14 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.dnivra26.kaito.view_models.MenuItemPojo;
+import io.github.dnivra26.kaito.view_models.VandiPojo;
 
 @EActivity(R.layout.activity_new_kadai)
-public class NewKadaiActivity extends AppCompatActivity {
+public class NewKadaiActivity extends AppCompatActivity implements KadaiCreationCallback {
 
     public static final int IMAGE_REQUEST_CODE = 111;
     @ViewById(R.id.toolbar)
@@ -55,6 +63,10 @@ public class NewKadaiActivity extends AppCompatActivity {
     @ViewById(R.id.add_menu)
     Button addMenu;
 
+    List<MenuItemPojo> menuItemPojoList = new ArrayList<>();
+    private byte[] imageViewByteArray;
+    private AlertDialog alertDialog;
+    private ProgressDialog progressDialog;
 
     @AfterViews
     public void setupToolbar() {
@@ -73,13 +85,21 @@ public class NewKadaiActivity extends AppCompatActivity {
 
     @Click(R.id.add_menu)
     public void addMenu() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Add Item")
                 .setView(R.layout.add_menu)
                 .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        TextView menuName = (TextView) alertDialog.findViewById(R.id.menu_name);
+                        TextView menuPrice = (TextView) alertDialog.findViewById(R.id.menu_price);
+                        RatingBar menuRating = (RatingBar) alertDialog.findViewById(R.id.menu_rating);
+                        float rating = menuRating.getRating();
+                        String name = menuName.getText().toString();
+                        int price = Integer.parseInt(menuPrice.getText().toString());
+                        menuItemPojoList.add(new MenuItemPojo(name, price, rating));
+                        kadaiMenu.setText(kadaiMenu.getText().append(name + "\n"));
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -88,7 +108,8 @@ public class NewKadaiActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
+
         alertDialog.show();
     }
 
@@ -109,10 +130,10 @@ public class NewKadaiActivity extends AppCompatActivity {
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
+            imageViewByteArray = stream.toByteArray();
 
 
-            ParseFile parseFile = new ParseFile("kadai_image.jpg", byteArray);
+            ParseFile parseFile = new ParseFile("kadai_image.jpg", imageViewByteArray);
         }
     }
 
@@ -125,9 +146,34 @@ public class NewKadaiActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_submit) {
+            String kadaiName = kadaiTitle.getText().toString();
+            float spiceRating = this.spiceRating.getRating();
+            String kadaiLocat = kadaiLocation.getText().toString();
+            String userReview = this.userReview.getText().toString();
+            float kadaiRating = this.kadaiRating.getRating();
+            VandiPojo vandiPojo = new VandiPojo(kadaiName, spiceRating, kadaiRating, kadaiLocat, userReview, imageViewByteArray, menuItemPojoList);
+            progressDialog = UiUtil.buildProgressDialog(this);
+            progressDialog.show();
+            ParseHelper.addVandi(this, vandiPojo, this);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onSuccess() {
+        progressDialog.dismiss();
+        Toast.makeText(this, "Shop added!", Toast.LENGTH_LONG).show();
+
+        finish();
+    }
+
+    @Override
+    public void onFailure() {
+        progressDialog.dismiss();
+        Toast.makeText(this, "Shop add failed!", Toast.LENGTH_LONG).show();
+    }
+
+
 }

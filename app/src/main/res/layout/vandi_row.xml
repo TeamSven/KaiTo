@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:padding="10dp">
+
+    <com.parse.ParseImageView
+        android:id="@+id/vandi_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"/>
+
+    <TextView
+        android:id="@+id/vandi_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/vandi_image"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="10pt"
+        tools:text="Food stop name" />
+
+    <TextView
+        android:id="@+id/vandi_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:paddingTop="2dp"
+        android:layout_below="@+id/vandi_name"
+        android:layout_toRightOf="@id/vandi_image"
+        tools:text="Location has not been provided yet" />
+</RelativeLayout>
