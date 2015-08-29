@@ -2,6 +2,8 @@
 /local.properties
 /.idea/workspace.xml
 /.idea
+.idea/misc.xml
+app/app.iml
 *.iml
 /.idea/libraries
 .DS_Store
