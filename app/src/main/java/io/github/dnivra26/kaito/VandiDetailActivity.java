@@ -1,11 +1,30 @@
 package io.github.dnivra26.kaito;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
+
+import io.github.dnivra26.kaito.adapter.FoodItemAdapter;
+import io.github.dnivra26.kaito.adapter.ReviewAdapter;
+import io.github.dnivra26.kaito.models.Vandi;
 
 /**
  * Created by ganesshkumar on 30/08/15.
@@ -14,6 +33,28 @@ import org.androidannotations.annotations.EActivity;
 public class VandiDetailActivity extends Activity {
 
     private String vandiId;
+    private Vandi vandi;
+
+    @ViewById(R.id.vandi_image)
+    ParseImageView vandiImage;
+
+    @ViewById(R.id.vandi_name)
+    TextView vandiName;
+
+    @ViewById(R.id.vandi_location)
+    TextView vandiLocation;
+
+    @ViewById(R.id.vandi_avg_rating)
+    RatingBar vandiAverageRating;
+
+    @ViewById(R.id.user_rating)
+    RatingBar userRating;
+
+    @ViewById(R.id.menu)
+    ListView menu;
+
+    @ViewById(R.id.kadai_review)
+    ListView kadaiReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +63,41 @@ public class VandiDetailActivity extends Activity {
     }
 
     @AfterViews
-    void init() {
+    void init () {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi");
+        query.whereEqualTo("objectId", vandiId);
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+        progressDialog.show();
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    for (ParseObject v : list) {
+                        vandi = (Vandi) v;
+                        break;
+                    }
+
+                    ParseFile photoFile = vandi.getParseFile("photo");
+                    if (photoFile != null) {
+                        vandiImage.setParseFile(photoFile);
+                        vandiImage.loadInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                // nothing to do
+                            }
+                        });
+                    }
+
+                    vandiName.setText(vandi.getName());
+                    vandiLocation.setText(vandi.getLocation().toString());
+                    vandiAverageRating.setRating((float) vandi.getAvgRating());
+                    //userRating.setRating();
+                    menu.setAdapter(new FoodItemAdapter(getApplicationContext(), vandiId));
+                    kadaiReview.setAdapter(new ReviewAdapter(getApplicationContext(), vandiId));
+                }
+                progressDialog.dismiss();
+            }
+        });
 
     }
 }

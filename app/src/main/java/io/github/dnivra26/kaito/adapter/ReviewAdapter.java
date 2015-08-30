@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -36,7 +37,11 @@ public class ReviewAdapter extends ParseQueryAdapter<VandiReview> {
 
         // Setting name
         TextView username = (TextView) v.findViewById(R.id.review_user);
-        username.setText(review.getUser().getUsername());
+        try {
+            username.setText(review.getUser().fetchIfNeeded().getUsername());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Setting review
         TextView reviewText = (TextView) v.findViewById(R.id.review_text);
