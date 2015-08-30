@@ -9,32 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/menu_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:paddingTop="10dp" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/menu_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Price"
-            android:inputType="number"
-            android:paddingTop="10dp" />
-    </android.support.design.widget.TextInputLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,11 +22,27 @@
             android:text="Rating" />
 
         <RatingBar
-            android:id="@+id/menu_rating"
+            android:id="@+id/kadai_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/user_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:hint="Your review..."
+            android:inputType="textMultiLine" />
+
+    </android.support.design.widget.TextInputLayout>
 
 
 </LinearLayout>
