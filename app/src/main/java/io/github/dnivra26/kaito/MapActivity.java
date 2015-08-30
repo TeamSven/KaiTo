@@ -123,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for (ParseObject parseObject : list) {
                         final Vandi vandi = (Vandi) parseObject;
 
-                        ParseQuery.getQuery("FoodItem").whereEqualTo("vandiId", vandi.getObjectId()).addDescendingOrder("rating").getFirstInBackground(new GetCallback<ParseObject>() {
+                        ParseQuery.getQuery("FoodItem").whereEqualTo("vandiId", vandi.getObjectId()).addDescendingOrder("avgRating").getFirstInBackground(new GetCallback<ParseObject>() {
                             @Override
                             public void done(ParseObject parseObject, ParseException e) {
                                 ParseGeoPoint location = vandi.getLocation();
