@@ -90,7 +90,7 @@ Parse.Cloud.afterSave("FoodRating", function(request) {
 });
 
 
-Parse.Cloud.beforeSave("FoodRating",function(request) {
+Parse.Cloud.beforeSave("FoodRating",function(request,response) {
 
 var foodRatingObj = request.object;
 var userId = foodRatingObj.get("userId");
@@ -100,7 +100,9 @@ var foodRating = Parse.Object.extend("FoodRating");
 var foodRatingQuery = new Parse.Query(foodRating);
 
 foodRatingQuery.equalTo("foodItemId", foodItemId);
-foodRatingQuery.equalTo("user",userId)({
+foodRatingQuery.equalTo("userId",userId);
+foodRatingQuery.find ({
+
        success: function(list) {
        if (list.length > 0)
        {
@@ -112,6 +114,7 @@ foodRatingQuery.equalTo("user",userId)({
        error: function(object,error){
        }
 });
+response.success();
 });
 
 Parse.Cloud.job("userNotification", function(request, status) {
@@ -128,18 +131,24 @@ vandiRatingQuery.find({
 	{
 		for(var i=0; i< list.length ; i++)
 		{
-			var userId = list[i].get("userId");
-			var vandiId = list[i].get("vandiId");
-console.log("first 1");
-console.log(userIdToVandiIdMap);
+			var object = list[i];
+			var userId = object.get("userId");
+			var vandiId = object.get("vandiId");
+
+
 console.log("second 2");
 console.log(userIdToVandiIdMap[userId]);
-console.log("userID"+userID+"vandiId"+vandiId);
+
 		if(userIdToVandiIdMap[userId] == undefined){
+console.log("inside if vandi");
 			userIdToVandiIdMap[userId] = [vandiId];
+console.log(userIdToVandiIdMap);
 		}
 		else{
+console.log("inside else vandi");
+
 			userIdToVandiIdMap[userId] = userIdToVandiIdMap[userId].push(vandiId);
+console.log(userIdToVandiIdMap);
 		}
 	}
 	}
@@ -156,8 +165,16 @@ foodRatingQuery.find({
 	{
 		for(var i=0; i< list.length ; i++)
 		{
+		console.log("list");
+		console.log(list[i]);
 			var userId = list[i].get("userId");
 			var vandiId = list[i].get("vandiId");
+
+//console.log("userID"+userID+"vandiId"+vandiId);
+//console.log("first 1");
+//console.log(userIdToVandiIdMap);
+//console.log("second 2");
+//console.log(userIdToVandiIdMap[userId]);
 			if(userIdToVandiIdMap[userId] != undefined){
 			userIdToVandiIdMap[userId] = [vandiId];
 		}

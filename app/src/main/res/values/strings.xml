@@ -13,4 +13,6 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="title_vandi_detail">Shop Detail</string>
     <string name="action_nearby">Nearby</string>
+    <string name="search_by_location">Location search</string>
+    <string name="favorite_food">Favorite food</string>
 </resources>
