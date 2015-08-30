@@ -231,7 +231,7 @@ public class VandiDetailActivity extends AppCompatActivity {
                     }
 
                     vandiName.setText(vandi.getName());
-                    vandiLocation.setText(vandi.getLocation().toString());
+                    vandiLocation.setText(vandi.getAddress());
                     vandiAverageRating.setRating((float) vandi.getAvgRating());
                     //userRating.setRating();
                     menu.setAdapter(new FoodItemAdapter(getApplicationContext(), vandiId));

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,6 +26,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -31,6 +34,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +77,7 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
     private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
 
     @AfterViews
     public void setupToolbar() {
@@ -164,10 +169,11 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
         if (id == R.id.action_submit) {
             String kadaiName = kadaiTitle.getText().toString();
             float spiceRating = this.spiceRating.getRating();
-            String kadaiLocat = kadaiLocation.getText().toString();
+            String kadaiLocat = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
             String userReview = this.userReview.getText().toString();
             float kadaiRating = this.kadaiRating.getRating();
-            VandiPojo vandiPojo = new VandiPojo(kadaiName, spiceRating, kadaiRating, kadaiLocat, userReview, imageViewByteArray, menuItemPojoList);
+            String address = kadaiLocation.getText().toString();
+            VandiPojo vandiPojo = new VandiPojo(kadaiName, spiceRating, kadaiRating, kadaiLocat, userReview, imageViewByteArray, menuItemPojoList, address);
             progressDialog = UiUtil.buildProgressDialog(this);
             progressDialog.show();
             ParseHelper.addVandi(this, vandiPojo, this);
@@ -194,10 +200,14 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
 
     @Override
     public void onConnected(Bundle bundle) {
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            kadaiLocation.setText(mLastLocation.getLatitude() + "," + mLastLocation.getLongitude());
+            ParseGeoPoint geoPoint = new ParseGeoPoint(0, 0);
+            geoPoint.setLatitude(mLastLocation.getLatitude());
+            geoPoint.setLongitude(mLastLocation.getLongitude());
+            String address = convertToAddress(geoPoint);
+            kadaiLocation.setText(address);
         }
     }
 
@@ -209,5 +219,22 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    public String convertToAddress(ParseGeoPoint geoPoint) {
+        String address = null;
+        Geocoder geocoder;
+        geocoder = new Geocoder(this);
+        String city = null;
+        List<Address> fromLocation = null;
+        try {
+            fromLocation = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        address = fromLocation.get(0).getAddressLine(0);
+        city = fromLocation.get(0).getAddressLine(1);
+
+        return address + "," + city;
     }
 }

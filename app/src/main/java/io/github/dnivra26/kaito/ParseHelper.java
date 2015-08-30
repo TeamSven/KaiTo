@@ -23,6 +23,7 @@ public class ParseHelper {
         vandi.setSpiceLevel((int) vandiPojo.getSpiceLevel());
         String[] locations = vandiPojo.getVandiLocation().split(",");
         vandi.setLocation(new ParseGeoPoint(Double.parseDouble(locations[0]), Double.parseDouble(locations[1])));
+        vandi.setAddress(vandiPojo.getAddress());
         final ParseFile parseFile = new ParseFile("kadai_image.jpg", vandiPojo.getVandiPhotoByteArray());
         parseFile.saveInBackground(new SaveCallback() {
             @Override
