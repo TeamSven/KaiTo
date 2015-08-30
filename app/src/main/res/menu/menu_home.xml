@@ -7,6 +7,20 @@
         android:orderInCategory="100"
         android:title="@string/action_nearby"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_search_location"
+        android:orderInCategory="100"
+        android:title="@string/search_by_location"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_fav_food"
+        android:orderInCategory="100"
+        android:title="@string/favorite_food"
+        app:showAsAction="never" />
+
+
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="100"

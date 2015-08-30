@@ -1,8 +1,10 @@
 package io.github.dnivra26.kaito;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogOutCallback;
@@ -37,6 +40,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @ViewById(R.id.create_new_kadai_fab)
     FloatingActionButton floatingActionButton;
+    private AlertDialog alertDialog;
 
     @AfterViews
     public void setupToolbar() {
@@ -122,6 +126,27 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_nearby) {
             startActivity(new Intent(this, MapActivity_.class));
+        } else if (id == R.id.action_fav_food) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Add Favorite Food")
+                    .setView(R.layout.add_favorite_food)
+                    .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            TextView menuName = (TextView) alertDialog.findViewById(R.id.fav_food_name);
+
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            alertDialog = builder.create();
+
+            alertDialog.show();
         }
 
         return super.onOptionsItemSelected(item);

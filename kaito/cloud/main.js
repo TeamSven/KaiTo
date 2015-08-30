@@ -100,7 +100,7 @@ var foodRating = Parse.Object.extend("FoodRating");
 var foodRatingQuery = new Parse.Query(foodRating);
 
 foodRatingQuery.equalTo("foodItemId", foodItemId);
-foodRatingQuery.equalTo("user",userId)({
+foodRatingQuery.equalTo("userId",userId)({
        success: function(list) {
        if (list.length > 0)
        {
@@ -156,8 +156,16 @@ foodRatingQuery.find({
 	{
 		for(var i=0; i< list.length ; i++)
 		{
+		console.log("list");
+		console.log(list[i]);
 			var userId = list[i].get("userId");
 			var vandiId = list[i].get("vandiId");
+
+console.log("userID"+userID+"vandiId"+vandiId);
+console.log("first 1");
+console.log(userIdToVandiIdMap);
+console.log("second 2");
+console.log(userIdToVandiIdMap[userId]);
 			if(userIdToVandiIdMap[userId] != undefined){
 			userIdToVandiIdMap[userId] = [vandiId];
 		}
