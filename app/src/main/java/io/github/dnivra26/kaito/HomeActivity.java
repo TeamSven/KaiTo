@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -18,11 +19,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
@@ -41,7 +46,7 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 @EActivity(R.layout.activity_home)
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
@@ -52,6 +57,9 @@ public class HomeActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     private AlertDialog alertDialog;
     private ReactiveLocationProvider reactiveLocationProvider;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private ParseGeoPoint currentGeoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @AfterViews
     public void setupToolbar() {
+        buildGoogleApiClient();
         if (toolbar != null) {
             toolbar.setTitle(getResources().getString(R.string.title_activity_home));
             setSupportActionBar(toolbar);
@@ -69,34 +78,18 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
-        final KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this);
-        kadaiListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Vandi>() {
-            @Override
-            public void onLoading() {
-                progressDialog.show();
-            }
-
-            @Override
-            public void onLoaded(List<Vandi> list, Exception e) {
-                if (list.size() > 0) {
-                    //noActiveIssuesLabel.setVisibility(View.GONE);
-                }
-                progressDialog.dismiss();
-            }
-        });
-        kadaiList.setAdapter(kadaiListAdapter);
-        kadaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HomeActivity.this, VandiDetailActivity_.class);
-                intent.putExtra("vandi_id", kadaiListAdapter.getItem(position).getObjectId());
-                startActivity(intent);
-            }
-        });
     }
 
     @Click(R.id.create_new_kadai_fab)
@@ -221,5 +214,50 @@ public class HomeActivity extends AppCompatActivity {
 
     private void toast(String text) {
         Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        currentGeoPoint = new ParseGeoPoint();
+        currentGeoPoint.setLatitude(mLastLocation.getLatitude());
+        currentGeoPoint.setLongitude(mLastLocation.getLongitude());
+
+        final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
+        final KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this, currentGeoPoint);
+        kadaiListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Vandi>() {
+            @Override
+            public void onLoading() {
+                progressDialog.show();
+            }
+
+            @Override
+            public void onLoaded(List<Vandi> list, Exception e) {
+                if (list.size() > 0) {
+                    //noActiveIssuesLabel.setVisibility(View.GONE);
+                }
+                progressDialog.dismiss();
+            }
+        });
+        kadaiList.setAdapter(kadaiListAdapter);
+        kadaiList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(HomeActivity.this, VandiDetailActivity_.class);
+                intent.putExtra("vandi_id", kadaiListAdapter.getItem(position).getObjectId());
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

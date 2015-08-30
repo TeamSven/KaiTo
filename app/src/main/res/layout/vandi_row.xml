@@ -36,6 +36,7 @@
         android:layout_toRightOf="@id/vandi_image"
         tools:text="Location has not been provided yet" />
 
+    <!--
     <RatingBar
         android:id="@+id/vandi_rating"
         style = "?android:attr/ratingBarStyleSmall"
@@ -45,12 +46,29 @@
         android:isIndicator="true"
         android:layout_below="@+id/vandi_location"
         android:layout_toRightOf="@id/vandi_image"/>
+    -->
+
+    <TextView
+        android:id="@+id/vandi_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:paddingTop="4dp"
+        android:textColor="#80cbc4"
+        android:textStyle="bold"
+        android:layout_below="@+id/vandi_location"
+        android:layout_toRightOf="@id/vandi_image"
+        tools:text="Location has not been provided yet" />
 
     <TextView
         android:id="@+id/number_rating"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_toRightOf="@id/vandi_name"
+        android:layout_width="45dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@android:color/white"
         android:background="@color/accent"/>
 
 </RelativeLayout>
