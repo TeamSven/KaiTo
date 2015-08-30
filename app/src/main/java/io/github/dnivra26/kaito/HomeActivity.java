@@ -45,6 +45,12 @@ public class HomeActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
         }
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
         final KadaiListAdapter kadaiListAdapter = new KadaiListAdapter(this);
         kadaiListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Vandi>() {

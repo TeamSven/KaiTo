@@ -5,8 +5,6 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
-import java.util.List;
-
 /**
  * Created by ganesshkumar on 29/08/15.
  */
@@ -26,6 +24,14 @@ public class Vandi extends ParseObject {
         return getParseGeoPoint("location");
     }
 
+    public String getAddress() {
+        return getString("location");
+    }
+
+    public void setAddress(String location) {
+        put("location", location);
+    }
+
     public void setLocation(ParseGeoPoint location) {
         put("location", location);
     }
@@ -41,16 +47,17 @@ public class Vandi extends ParseObject {
     public void setSpiceLevel(int level) {
         put("spiceLevel", level);
     }
-    
+
     public int getSpiceLevel() {
         return getInt("spiceLevel");
     }
 
-    public void setAvgRating(double avgRating){ put("avgRating", avgRating); }
+    public void setAvgRating(double avgRating) {
+        put("avgRating", avgRating);
+    }
 
-    public double getAvgRating()
-    {
-      return getDouble("avgRating");
+    public double getAvgRating() {
+        return getDouble("avgRating");
     }
 
 }

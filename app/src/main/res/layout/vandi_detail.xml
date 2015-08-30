@@ -111,6 +111,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Button
+                android:id="@+id/add_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add menu item" />
+
 
             <ListView
                 android:id="@+id/kadai_review"
