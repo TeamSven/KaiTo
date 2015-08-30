@@ -1,8 +1,9 @@
 package io.github.dnivra26.kaito;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -15,7 +16,6 @@ import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -30,7 +30,7 @@ import io.github.dnivra26.kaito.models.Vandi;
  * Created by ganesshkumar on 30/08/15.
  */
 @EActivity(R.layout.vandi_detail)
-public class VandiDetailActivity extends Activity {
+public class VandiDetailActivity extends AppCompatActivity {
 
     private String vandiId;
     private Vandi vandi;
@@ -56,6 +56,10 @@ public class VandiDetailActivity extends Activity {
     @ViewById(R.id.kadai_review)
     ListView kadaiReview;
 
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,13 @@ public class VandiDetailActivity extends Activity {
     }
 
     @AfterViews
-    void init () {
+    void init() {
+
+        if (toolbar != null) {
+            toolbar.setTitle(getResources().getString(R.string.title_vandi_detail));
+            setSupportActionBar(toolbar);
+        }
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Vandi");
         query.whereEqualTo("objectId", vandiId);
         final ProgressDialog progressDialog = UiUtil.buildProgressDialog(this);
