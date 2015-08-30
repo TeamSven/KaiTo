@@ -135,7 +135,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 googleMap.addMarker(new MarkerOptions()
                                         .position(new LatLng(location.getLatitude(), location.getLongitude()))
                                                 //.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(MapActivity.this, foodName)))
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_new))
+                                        .snippet("rating: " + fo.getAvgRating())
                                         .title(fo.getName()));
                             }
                         });
