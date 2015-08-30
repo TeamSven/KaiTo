@@ -29,7 +29,7 @@ Parse.Cloud.afterSave("VandiRating", function(request) {
                });
 });
 
-Parse.Cloud.beforeSave("VandiRating",function(request) {
+Parse.Cloud.beforeSave("VandiRating",function(request, response) {
 
 var vandiRatingObj = request.object;
 var userId = vandiRatingObj.get("userId");
@@ -40,7 +40,8 @@ var vandi = Parse.Object.extend("Vandi");
 var vandiRatingQuery = new Parse.Query(vandiRating);
 
 vandiRatingQuery.equalTo("vandiId", vandiId);
-vandiRatingQuery.equalTo("userId", userId)({
+vandiRatingQuery.equalTo("userId", userId);
+vandiRatingQuery.find({
        success: function(list) {
        if (list.length > 0)
        {
@@ -52,6 +53,7 @@ vandiRatingQuery.equalTo("userId", userId)({
        error: function(object,error){
        }
 });
+response.success();
 });
 
 
@@ -110,4 +112,58 @@ foodRatingQuery.equalTo("user",userId)({
        error: function(object,error){
        }
 });
+});
+
+Parse.Cloud.job("userNotification", function(request, status) {
+var d = new Date();
+var time = (1 * 24 * 3600 * 1000);
+var yesterDay = new Date(d.getTime() - (time));
+var userIdToVandiIdMap;
+var vandiRating = Parse.Object.extend("VandiRating");
+var vandiRatingQuery = new Parse.Query(vandiRating);
+vandiRatingQuery.greaterThanOrEqualTo( "updatedAt", yesterDay );
+vandiRatingQuery.find({
+	success: function(list) {
+	if (list.length > 0) 
+	{
+		for(var i=0; i< list.length ; i++)
+		{
+			var userId = list[i].get("userId");
+			var vandiId = list[i].get("vandiId");
+			if(userIdToVandiIdMap[userId] != undefined){
+			userIdToVandiIdMap[userId] = [vandiId];
+		}
+		else{
+			userIdToVandiIdMap[userId] = userIdToVandiIdMap[userId].push(vandiId);
+		}
+	}
+	}
+  	},
+	error: function(object,error){
+	}
+});
+var foodRating = Parse.Object.extend("VandiRating");
+var foodRatingQuery = new Parse.Query(foodRating);
+foodRatingQuery.greaterThanOrEqualTo( "updatedAt", yesterDay );
+foodRatingQuery.find({
+	success: function(list) {
+	if (list.length > 0) 
+	{
+		for(var i=0; i< list.length ; i++)
+		{
+			var userId = list[i].get("userId");
+			var vandiId = list[i].get("vandiId");
+			if(userIdToVandiIdMap[userId] != undefined){
+			userIdToVandiIdMap[userId] = [vandiId];
+		}
+		else{
+			userIdToVandiIdMap[userId] = userIdToVandiIdMap[userId].push(vandiId);
+		}
+	}
+	}
+  	},
+	error: function(object,error){
+	}
+});
+	console.log(userIdToVandiIdMap);
 });
