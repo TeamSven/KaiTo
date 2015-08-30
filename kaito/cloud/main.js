@@ -117,6 +117,7 @@ foodRatingQuery.find ({
 response.success();
 });
 
+
 Parse.Cloud.job("userNotification", function(request, status) {
 var d = new Date();
 var time = (1 * 24 * 3600 * 1000);
@@ -152,72 +153,74 @@ vandiRatingQuery.find({
 			console.log(userIdToVandiIdMap);	
 		}
 	}
-  	},
-	error: function(object,error){
-	}
-});
-var foodRating = Parse.Object.extend("VandiRating");
-var foodRatingQuery = new Parse.Query(foodRating);
-foodRatingQuery.greaterThanOrEqualTo( "updatedAt", yesterDay );
-foodRatingQuery.find({
-	success: function(list) {
-	if (list.length > 0) 
-	{
-		for(var i=0; i< list.length ; i++)
+	
+	var foodRating = Parse.Object.extend("VandiRating");
+	var foodRatingQuery = new Parse.Query(foodRating);
+	foodRatingQuery.greaterThanOrEqualTo( "updatedAt", yesterDay );
+	foodRatingQuery.find({
+		success: function(list) {
+		if (list.length > 0) 
 		{
-		console.log("list");
-		console.log(list[i]);
-			var userId = list[i].get("userId");
-			var vandiId = list[i].get("vandiId");
+			for(var i=0; i< list.length ; i++)
+			{
+			console.log("list");
+			console.log(list[i]);
+				var userId = list[i].get("userId");
+				var vandiId = list[i].get("vandiId");
 
-			if(userIdToVandiIdMap[userId] == undefined){
-			userIdToVandiIdMap[userId] = [vandiId];
+				if(userIdToVandiIdMap[userId] == undefined){
+				userIdToVandiIdMap[userId] = [vandiId];
+			}
+			else{
+				userIdToVandiIdMap[userId].push(vandiId);
+			}
 		}
-		else{
-			userIdToVandiIdMap[userId].push(vandiId);
 		}
-	}
-	}
+		
+		console.log("keys1");
+		console.log(Object.keys(userIdToVandiIdMap));
+		console.log("keys2");
+		for(userIdKey in userIdToVandiIdMap){
+			console.log(userIdKey)	
+		
+		}
+	
+	
+		// Find users near a given location
+		var userQuery = new Parse.Query(Parse.User);
+		userQuery.equalTo("objectId", 'wuaqOsrNcp');
+
+		// Find devices associated with these users
+		var pushQuery = new Parse.Query(Parse.Installation);
+		pushQuery.matchesQuery('user', userQuery);
+
+		// Send push notification to query
+		Parse.Push.send({
+		  where: pushQuery,
+		  data: {
+			alert: "Arvind is a name Kaka is an emotion" 
+		  }
+		}, {
+		  success: function() {
+			// Push was successful
+			console.log("Push success");
+		  },
+		  error: function(error) {
+			// Handle error
+			console.log("error");
+			console.log(error);
+		  }
+		});
+		
+		
+		},
+		error: function(object,error){
+		}
+	});
+
   	},
 	error: function(object,error){
 	}
 });
-	console.log(userIdToVandiIdMap);
-
-
-	console.log("keys1");
-	console.log(Object.keys(userIdToVandiIdMap));
-	console.log("keys2");
-	for(userIdKey in userIdToVandiIdMap){
-		console.log(userIdKey)
-		
-	
-	}
-	
-	
-	// Find users near a given location
-	var userQuery = new Parse.Query(Parse.User);
-	userQuery.equalTo("objectId", 'wuaqOsrNcp');
-
-	// Find devices associated with these users
-	var pushQuery = new Parse.Query(Parse.Installation);
-	pushQuery.matchesQuery('user', userQuery);
-
-	// Send push notification to query
-	Parse.Push.send({
-	  where: pushQuery,
-	  data: {
-		alert: "Arvind is a name Kaka is an emotion" 
-	  }
-	}, {
-	  success: function() {
-		// Push was successful
-		console.log("Push success");
-	  },
-	  error: function(error) {
-		// Handle error
-		console.log("error");
-		console.log(error);
-	  }
-	});
 });
+
