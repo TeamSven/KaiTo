@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 
 import io.github.dnivra26.kaito.models.FoodItem;
 import io.github.dnivra26.kaito.models.FoodRating;
+import io.github.dnivra26.kaito.models.StomachRating;
 import io.github.dnivra26.kaito.models.Vandi;
 import io.github.dnivra26.kaito.models.VandiRating;
 import io.github.dnivra26.kaito.models.VandiReview;
@@ -33,5 +34,6 @@ public class KaiToApplication extends Application {
         ParseObject.registerSubclass(VandiRating.class);
         ParseObject.registerSubclass(FoodItem.class);
         ParseObject.registerSubclass(FoodRating.class);
+        ParseObject.registerSubclass(StomachRating.class);
     }
 }

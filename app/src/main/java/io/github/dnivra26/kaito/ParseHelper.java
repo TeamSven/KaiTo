@@ -72,7 +72,7 @@ public class ParseHelper {
                                                                 }
                                                             });
                                                         }
-                                                        kadaiCreationCallback.onSuccess();
+                                                        kadaiCreationCallback.onSuccess(vandi.getObjectId());
                                                     } else {
                                                         kadaiCreationCallback.onFailure();
                                                     }
