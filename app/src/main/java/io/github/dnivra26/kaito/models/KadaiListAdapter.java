@@ -64,34 +64,19 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         vandiName.setText(vandi.getName());
 
         // Setting location
-        String address = convertToAddress(vandi.getLocation());
+
         TextView vandiLocation = (TextView) v
                 .findViewById(R.id.vandi_location);
         //vandiLocation.setText(vandi.getLocation().toString());
-        vandiLocation.setText(address);
+        vandiLocation.setText(vandi.getAddress());
 
         // Star Rating
         RatingBar vandiRating = (RatingBar) v.findViewById(R.id.vandi_rating);
         LayerDrawable stars = (LayerDrawable) vandiRating.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
-        vandiRating.setRating((float)vandi.getAvgRating());
-        
+        vandiRating.setRating((float) vandi.getAvgRating());
+
         return v;
     }
-    public String convertToAddress(ParseGeoPoint geoPoint) {
-        String address = null;
-        Geocoder geocoder;
-        geocoder = new Geocoder(getContext());
-        String city = null;
-        try {
-            List<Address> fromLocation = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
-            address = fromLocation.get(0).getAddressLine(0);
-            city = fromLocation.get(0).getAddressLine(1);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return address + "," + city;
-    }
 }

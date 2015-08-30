@@ -25,11 +25,11 @@ public class Vandi extends ParseObject {
     }
 
     public String getAddress() {
-        return getString("location");
+        return getString("address");
     }
 
-    public void setAddress(String location) {
-        put("location", location);
+    public void setAddress(String address) {
+        put("address", address);
     }
 
     public void setLocation(ParseGeoPoint location) {

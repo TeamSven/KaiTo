@@ -12,7 +12,17 @@ public class VandiPojo {
     byte[] vandiPhotoByteArray;
     List<MenuItemPojo> menuItems;
 
-    public VandiPojo(String vandiName, float spiceLevel, float rating, String vandiLocation, String userReview, byte[] vandiPhotoByteArray, List<MenuItemPojo> menuItems) {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    String address;
+
+    public VandiPojo(String vandiName, float spiceLevel, float rating, String vandiLocation, String userReview, byte[] vandiPhotoByteArray, List<MenuItemPojo> menuItems, String address) {
         this.vandiName = vandiName;
         this.spiceLevel = spiceLevel;
         this.rating = rating;
@@ -20,6 +30,7 @@ public class VandiPojo {
         this.userReview = userReview;
         this.vandiPhotoByteArray = vandiPhotoByteArray;
         this.menuItems = menuItems;
+        this.address = address;
     }
 
     public String getVandiName() {
