@@ -18,5 +18,6 @@
     <string name="favorite_food">Favorite food</string>
 
     <string name="title_activity_placesearch">Placesearch</string>
+    <string name="title_activity_notification">NotificationActivity</string>
 
 </resources>
