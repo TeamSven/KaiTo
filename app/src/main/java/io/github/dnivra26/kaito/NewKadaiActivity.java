@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -86,6 +89,14 @@ public class NewKadaiActivity extends AppCompatActivity implements KadaiCreation
             toolbar.setTitle(getResources().getString(R.string.title_activity_new_kadai));
             setSupportActionBar(toolbar);
         }
+
+
+        LayerDrawable star1 = (LayerDrawable) spiceRating.getProgressDrawable();
+        star1.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+        LayerDrawable star2 = (LayerDrawable) kadaiRating.getProgressDrawable();
+        star2.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
     }
 
     protected synchronized void buildGoogleApiClient() {

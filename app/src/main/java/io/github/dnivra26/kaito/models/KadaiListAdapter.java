@@ -20,6 +20,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -64,7 +66,6 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         vandiName.setText(vandi.getName());
 
         // Setting location
-
         TextView vandiLocation = (TextView) v
                 .findViewById(R.id.vandi_location);
         //vandiLocation.setText(vandi.getLocation().toString());
@@ -76,6 +77,9 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         vandiRating.setRating((float) vandi.getAvgRating());
 
+        // Number rating
+        TextView numberRating = (TextView) v.findViewById(R.id.number_rating);
+        numberRating.setText(String.valueOf(vandi.getAvgRating()));
         return v;
     }
 

@@ -46,4 +46,11 @@
         android:layout_below="@+id/vandi_location"
         android:layout_toRightOf="@id/vandi_image"/>
 
+    <TextView
+        android:id="@+id/number_rating"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/vandi_name"
+        android:background="@color/accent"/>
+
 </RelativeLayout>
