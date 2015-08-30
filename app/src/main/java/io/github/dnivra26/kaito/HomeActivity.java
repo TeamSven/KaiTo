@@ -104,6 +104,40 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         return true;
     }
 
+    @Click(R.id.button_nearby)
+    public void buttonNearby() {
+        startActivity(new Intent(this, MapActivity_.class));
+    }
+
+    @Click(R.id.button_search)
+    public void buttonSearch() {
+        startActivity(new Intent(HomeActivity.this, Placesearch_.class));
+    }
+
+    @Click(R.id.button_food)
+    public void buttonFood() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Add Favorite Food")
+                .setView(R.layout.add_favorite_food)
+                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        TextView menuName = (TextView) alertDialog.findViewById(R.id.fav_food_name);
+                        addGeofence();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alertDialog = builder.create();
+
+        alertDialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

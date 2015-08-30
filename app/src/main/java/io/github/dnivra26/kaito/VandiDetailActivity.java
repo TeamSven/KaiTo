@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -77,6 +78,8 @@ public class VandiDetailActivity extends AppCompatActivity {
     @ViewById(R.id.add_menu_item)
     Button addMenuItem;
 
+    @ViewById(R.id.health_button)
+    Button healthButton;
 
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
@@ -242,7 +245,7 @@ public class VandiDetailActivity extends AppCompatActivity {
                         public void done(List<ParseObject> list, ParseException e) {
                             if (e == null) {
                                 for (ParseObject v : list) {
-                                    userRating.setRating(((VandiRating)v).getRating());
+                                    userRating.setRating(((VandiRating) v).getRating());
                                 }
                             }
                         }
@@ -250,6 +253,10 @@ public class VandiDetailActivity extends AppCompatActivity {
 
                     menu.setAdapter(new FoodItemAdapter(getApplicationContext(), vandiId));
                     kadaiReview.setAdapter(new ReviewAdapter(getApplicationContext(), vandiId));
+
+                    if(vandi.getName().equals("hi hello")) {
+                        healthButton.setVisibility(View.VISIBLE);
+                    }
                 }
                 progressDialog.dismiss();
             }

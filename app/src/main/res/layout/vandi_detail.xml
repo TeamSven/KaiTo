@@ -106,6 +106,14 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <Button
+                android:id="@+id/health_button"
+                android:visibility="invisible"
+                android:text="Caution! Health Problem!"
+                android:background="@android:color/holo_red_light"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
             <ListView
                 android:id="@+id/menu"
                 android:layout_width="match_parent"
@@ -116,6 +124,7 @@
                 android:id="@+id/add_menu_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Add menu item" />
 
 
