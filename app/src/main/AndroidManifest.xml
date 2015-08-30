@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
-    package="io.github.dnivra26.kaito">
+
+
+    package="io.github.dnivra26.kaito" >
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,17 +16,15 @@
         tools:ignore="MockLocation" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
-
     <application
         android:name=".KaiToApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBb7J_UT_iUe5IBpxzbrM_xN_Vw96QZuAI" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -31,15 +33,12 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".LoginSignupActivity_"
@@ -59,6 +58,10 @@
         <activity
             android:name=".VandiDetailActivity_"
             android:label="@string/title_vandi_detail" />
+        <activity
+            android:name=".Placesearch"
+            android:label="@string/title_activity_placesearch" >
+        </activity>
     </application>
 
 </manifest>

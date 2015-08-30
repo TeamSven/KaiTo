@@ -164,7 +164,10 @@ public class HomeActivity extends AppCompatActivity {
             alertDialog = builder.create();
 
             alertDialog.show();
+        } else if (id == R.id.action_search_location) {
+            startActivity(new Intent(HomeActivity.this, Placesearch.class));
         }
+
 
         return super.onOptionsItemSelected(item);
     }
