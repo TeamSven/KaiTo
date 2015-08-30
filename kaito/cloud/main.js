@@ -136,21 +136,21 @@ vandiRatingQuery.find({
 			var vandiId = object.get("vandiId");
 
 
-console.log("second 2");
-console.log(userIdToVandiIdMap[userId]);
+                        console.log("second 2");
+			console.log(userIdToVandiIdMap[userId]);
 
-		if(userIdToVandiIdMap[userId] == undefined){
-console.log("inside if vandi");
-			userIdToVandiIdMap[userId] = [vandiId];
-console.log(userIdToVandiIdMap);
-		}
-		else{
-console.log("inside else vandi");
+			if(userIdToVandiIdMap[userId] == undefined){
+				console.log("inside if vandi");
+				userIdToVandiIdMap[userId] = [vandiId];
+				console.log(userIdToVandiIdMap);
+			}
+			else{
+				console.log("inside else vandi");
 
-			userIdToVandiIdMap[userId] = userIdToVandiIdMap[userId].push(vandiId);
-console.log(userIdToVandiIdMap);
+				userIdToVandiIdMap[userId].push(vandiId);
+			}
+			console.log(userIdToVandiIdMap);	
 		}
-	}
 	}
   	},
 	error: function(object,error){
@@ -175,11 +175,11 @@ foodRatingQuery.find({
 //console.log(userIdToVandiIdMap);
 //console.log("second 2");
 //console.log(userIdToVandiIdMap[userId]);
-			if(userIdToVandiIdMap[userId] != undefined){
+			if(userIdToVandiIdMap[userId] == undefined){
 			userIdToVandiIdMap[userId] = [vandiId];
 		}
 		else{
-			userIdToVandiIdMap[userId] = userIdToVandiIdMap[userId].push(vandiId);
+			userIdToVandiIdMap[userId].push(vandiId);
 		}
 	}
 	}
