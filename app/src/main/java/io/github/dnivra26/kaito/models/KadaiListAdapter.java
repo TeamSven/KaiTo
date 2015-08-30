@@ -1,6 +1,8 @@
 package io.github.dnivra26.kaito.models;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
@@ -9,10 +11,14 @@ import android.widget.TextView;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+
+import java.io.IOException;
+import java.util.List;
 
 import io.github.dnivra26.kaito.R;
 
@@ -55,14 +61,31 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         vandiName.setText(vandi.getName());
 
         // Setting location
+        String address = convertToAddress(vandi.getLocation());
         TextView vandiLocation = (TextView) v
                 .findViewById(R.id.vandi_location);
-        vandiLocation.setText(vandi.getLocation().toString());
-
+        //vandiLocation.setText(vandi.getLocation().toString());
+        vandiLocation.setText(address);
         // Star Rating
         RatingBar vandiRating = (RatingBar) v.findViewById(R.id.vandi_rating);
         vandiRating.setRating((float)vandi.getAvgRating());
         
         return v;
+    }
+    public String convertToAddress(ParseGeoPoint geoPoint) {
+        String address = null;
+        Geocoder geocoder;
+        geocoder = new Geocoder(getContext());
+        String city = null;
+        try {
+            List<Address> fromLocation = geocoder.getFromLocation(geoPoint.getLatitude(), geoPoint.getLongitude(), 1);
+            address = fromLocation.get(0).getAddressLine(0);
+            city = fromLocation.get(0).getAddressLine(1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return address + "," + city;
     }
 }
