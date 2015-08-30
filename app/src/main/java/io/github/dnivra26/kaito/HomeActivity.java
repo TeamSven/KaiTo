@@ -157,7 +157,10 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
             alertDialog = builder.create();
 
             alertDialog.show();
+        } else if (id == R.id.action_search_location) {
+            startActivity(new Intent(HomeActivity.this, Placesearch_.class));
         }
+
 
         return super.onOptionsItemSelected(item);
     }
