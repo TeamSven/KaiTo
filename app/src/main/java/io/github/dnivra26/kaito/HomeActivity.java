@@ -109,10 +109,10 @@ public class HomeActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(new Intent(this, MapActivity_.class));
     }
 
-    @Click(R.id.button_search)
-    public void buttonSearch() {
-        startActivity(new Intent(HomeActivity.this, Placesearch_.class));
-    }
+    //@Click(R.id.button_search)
+    //public void buttonSearch() {
+    //    startActivity(new Intent(HomeActivity.this, Placesearch_.class));
+    //}
 
     @Click(R.id.button_food)
     public void buttonFood() {

@@ -23,15 +23,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <Button
-            android:layout_toRightOf="@id/button_nearby"
-            android:id="@+id/button_search"
-            android:text="Search"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <Button
             android:id="@+id/button_food"
-            android:layout_toRightOf="@id/button_search"
+            android:layout_toRightOf="@id/button_nearby"
             android:text="Favorite"
             android:layout_width="0dp"
             android:layout_weight="1"
