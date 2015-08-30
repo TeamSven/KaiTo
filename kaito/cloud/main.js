@@ -32,7 +32,7 @@ Parse.Cloud.afterSave("VandiRating", function(request) {
 Parse.Cloud.beforeSave("VandiRating",function(request) {
 
 var vandiRatingObj = request.object;
-var userId = vandiRatingObj.get("user");
+var userId = vandiRatingObj.get("userId");
 var vandiId = vandiRatingObj.get("vandiId");
 var newVandiRating;
 var vandiRating = Parse.Object.extend("VandiRating");
@@ -91,7 +91,7 @@ Parse.Cloud.afterSave("FoodRating", function(request) {
 Parse.Cloud.beforeSave("FoodRating",function(request) {
 
 var foodRatingObj = request.object;
-var userId = foodRatingObj.get("user");
+var userId = foodRatingObj.get("userId");
 var foodItemId = foodRatingObj.get("foodItemId");
 var newFoodRating;
 var foodRating = Parse.Object.extend("FoodRating");

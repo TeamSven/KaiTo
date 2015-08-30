@@ -8,8 +8,8 @@
 
     <com.parse.ParseImageView
         android:id="@+id/vandi_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:paddingLeft="0dp"
         android:paddingRight="10dp"
         android:paddingTop="0dp"
@@ -21,8 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/vandi_image"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/accent"
         android:textSize="10pt"
+        android:paddingTop="10dp"
         tools:text="Food stop name" />
 
     <TextView
@@ -30,13 +31,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="2"
-        android:paddingTop="2dp"
+        android:paddingTop="4dp"
         android:layout_below="@+id/vandi_name"
         android:layout_toRightOf="@id/vandi_image"
         tools:text="Location has not been provided yet" />
 
     <RatingBar
         android:id="@+id/vandi_rating"
+        style = "?android:attr/ratingBarStyleSmall"
+        android:paddingTop="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:isIndicator="true"

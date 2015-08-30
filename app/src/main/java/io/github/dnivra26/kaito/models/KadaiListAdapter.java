@@ -1,6 +1,9 @@
 package io.github.dnivra26.kaito.models;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.view.View;
@@ -66,8 +69,11 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
                 .findViewById(R.id.vandi_location);
         //vandiLocation.setText(vandi.getLocation().toString());
         vandiLocation.setText(address);
+
         // Star Rating
         RatingBar vandiRating = (RatingBar) v.findViewById(R.id.vandi_rating);
+        LayerDrawable stars = (LayerDrawable) vandiRating.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         vandiRating.setRating((float)vandi.getAvgRating());
         
         return v;
