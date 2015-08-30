@@ -32,6 +32,7 @@ import java.util.List;
 
 import io.github.dnivra26.kaito.adapter.FoodItemAdapter;
 import io.github.dnivra26.kaito.adapter.ReviewAdapter;
+import io.github.dnivra26.kaito.models.FoodItem;
 import io.github.dnivra26.kaito.models.Vandi;
 import io.github.dnivra26.kaito.models.VandiRating;
 import io.github.dnivra26.kaito.models.VandiReview;
@@ -71,6 +72,11 @@ public class VandiDetailActivity extends AppCompatActivity {
 
     @ViewById(R.id.add_review)
     Button addReview;
+
+    @ViewById(R.id.add_menu_item)
+    Button addMenuItem;
+
+
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
 
@@ -79,6 +85,50 @@ public class VandiDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vandiId = getIntent().getStringExtra("vandi_id");
+    }
+
+    @Click(R.id.add_menu_item)
+    public void addMenuItem() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Add Item")
+                .setView(R.layout.add_item)
+                .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        progressDialog = UiUtil.buildProgressDialog(VandiDetailActivity.this);
+                        progressDialog.show();
+                        TextView menuName = (TextView) alertDialog.findViewById(R.id.menu_name);
+                        TextView menuPrice = (TextView) alertDialog.findViewById(R.id.menu_price);
+                        final FoodItem foodItem = new FoodItem();
+                        foodItem.setVandi(vandi);
+                        foodItem.setVandiId(vandi.getObjectId());
+                        foodItem.setName(menuName.getText().toString());
+                        foodItem.setPrice(Integer.parseInt(menuPrice.getText().toString()));
+                        foodItem.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(VandiDetailActivity.this, "Item added!", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(VandiDetailActivity.this, "Failed!", Toast.LENGTH_LONG).show();
+
+                                }
+                                progressDialog.dismiss();
+                            }
+                        });
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alertDialog = builder.create();
+
+        alertDialog.show();
     }
 
     @Click(R.id.add_review)
