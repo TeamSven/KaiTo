@@ -10,7 +10,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:textSize="10pt"
-        tools:text="Item" />
+        android:text="Item" />
 
     <RatingBar
         android:id="@+id/item_rating"

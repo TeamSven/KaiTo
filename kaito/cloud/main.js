@@ -118,7 +118,7 @@ Parse.Cloud.job("userNotification", function(request, status) {
 var d = new Date();
 var time = (1 * 24 * 3600 * 1000);
 var yesterDay = new Date(d.getTime() - (time));
-var userIdToVandiIdMap;
+var userIdToVandiIdMap = [];
 var vandiRating = Parse.Object.extend("VandiRating");
 var vandiRatingQuery = new Parse.Query(vandiRating);
 vandiRatingQuery.greaterThanOrEqualTo( "updatedAt", yesterDay );
