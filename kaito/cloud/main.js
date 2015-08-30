@@ -170,11 +170,6 @@ foodRatingQuery.find({
 			var userId = list[i].get("userId");
 			var vandiId = list[i].get("vandiId");
 
-//console.log("userID"+userID+"vandiId"+vandiId);
-//console.log("first 1");
-//console.log(userIdToVandiIdMap);
-//console.log("second 2");
-//console.log(userIdToVandiIdMap[userId]);
 			if(userIdToVandiIdMap[userId] == undefined){
 			userIdToVandiIdMap[userId] = [vandiId];
 		}
@@ -188,4 +183,41 @@ foodRatingQuery.find({
 	}
 });
 	console.log(userIdToVandiIdMap);
+
+
+	console.log("keys1");
+	console.log(Object.keys(userIdToVandiIdMap));
+	console.log("keys2");
+	for(userIdKey in userIdToVandiIdMap){
+		console.log(userIdKey)
+		
+	
+	}
+	
+	
+	// Find users near a given location
+	var userQuery = new Parse.Query(Parse.User);
+	userQuery.equalTo("objectId", 'wuaqOsrNcp');
+
+	// Find devices associated with these users
+	var pushQuery = new Parse.Query(Parse.Installation);
+	pushQuery.matchesQuery('user', userQuery);
+
+	// Send push notification to query
+	Parse.Push.send({
+	  where: pushQuery,
+	  data: {
+		alert: "Arvind is a name Kaka is an emotion" 
+	  }
+	}, {
+	  success: function() {
+		// Push was successful
+		console.log("Push success");
+	  },
+	  error: function(error) {
+		// Handle error
+		console.log("error");
+		console.log(error);
+	  }
+	});
 });
