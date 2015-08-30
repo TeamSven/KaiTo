@@ -22,7 +22,7 @@ public class FoodItem extends ParseObject {
     }
 
     public int getPrice() {
-        return getInt("prince");
+        return getInt("price");
     }
 
     public void setVandi(Vandi vandi) {

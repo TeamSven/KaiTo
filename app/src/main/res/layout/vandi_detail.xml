@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <com.parse.ParseImageView
         android:id="@+id/vandi_image"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:paddingLeft="0dp"
-        android:paddingRight="10dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"/>
 
@@ -44,26 +47,23 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
-
+        android:layout_height="wrap_content">
         <ListView
             android:id="@+id/menu"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         </ListView>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
+        android:layout_height="wrap_content">
 
         <ListView
             android:id="@+id/kadai_review"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         </ListView>
     </FrameLayout>
-
 </LinearLayout>
+</NestedScrollView>
