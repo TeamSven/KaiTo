@@ -1,12 +1,15 @@
 package io.github.dnivra26.kaito;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
@@ -29,6 +35,10 @@ import java.util.List;
 
 import io.github.dnivra26.kaito.models.KadaiListAdapter;
 import io.github.dnivra26.kaito.models.Vandi;
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 @EActivity(R.layout.activity_home)
 public class HomeActivity extends AppCompatActivity {
@@ -41,6 +51,13 @@ public class HomeActivity extends AppCompatActivity {
     @ViewById(R.id.create_new_kadai_fab)
     FloatingActionButton floatingActionButton;
     private AlertDialog alertDialog;
+    private ReactiveLocationProvider reactiveLocationProvider;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        reactiveLocationProvider = new ReactiveLocationProvider(this);
+    }
 
     @AfterViews
     public void setupToolbar() {
@@ -135,7 +152,7 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             TextView menuName = (TextView) alertDialog.findViewById(R.id.fav_food_name);
-
+                            addGeofence();
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -150,5 +167,59 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private PendingIntent createNotificationBroadcastPendingIntent() {
+        return PendingIntent.getBroadcast(this, 0, new Intent(this, GeofenceBroadcastReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+
+    private void addGeofence() {
+        final GeofencingRequest geofencingRequest = createGeofencingRequest();
+        if (geofencingRequest == null) return;
+
+        final PendingIntent pendingIntent = createNotificationBroadcastPendingIntent();
+        reactiveLocationProvider
+                .removeGeofences(pendingIntent)
+                .flatMap(new Func1<Status, Observable<Status>>() {
+                    @Override
+                    public Observable<Status> call(Status pendingIntentRemoveGeofenceResult) {
+                        return reactiveLocationProvider.addGeofences(pendingIntent, geofencingRequest);
+                    }
+                })
+                .subscribe(new Action1<Status>() {
+                    @Override
+                    public void call(Status addGeofenceResult) {
+                        toast("Geofence added, success: " + addGeofenceResult.isSuccess());
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        toast("Error adding geofence.");
+                        Log.d("GMS", "Error adding geofence.", throwable);
+                    }
+                });
+    }
+
+    private GeofencingRequest createGeofencingRequest() {
+        try {
+            double longitude = 77.598353;
+            double latitude = 12.978630;
+
+            Geofence geofence = new Geofence.Builder()
+                    .setRequestId("GEOFENCE")
+                    .setCircularRegion(latitude, longitude, 1000)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .build();
+            return new GeofencingRequest.Builder().addGeofence(geofence).build();
+        } catch (NumberFormatException ex) {
+            toast("Error parsing input.");
+            return null;
+        }
+    }
+
+    private void toast(String text) {
+        Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 }
