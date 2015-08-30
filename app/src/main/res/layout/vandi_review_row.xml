@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="10pt"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         tools:text="Username" />
 
     <TextView
@@ -19,5 +20,6 @@
         android:layout_height="wrap_content"
         android:maxLines="2"
         android:paddingTop="2dp"
+        android:textColor="@android:color/black"
         tools:text="Review Text" />
 </LinearLayout>

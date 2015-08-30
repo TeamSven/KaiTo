@@ -40,7 +40,7 @@ public class FoodItemAdapter extends ParseQueryAdapter<FoodItem> {
 
         // Setting price
         TextView itemPrice = (TextView) v.findViewById(R.id.item_price);
-        itemName.setText(String.valueOf(item.getPrice()));
+        itemPrice.setText("\u20B9" + String.valueOf(item.getPrice()));
 
         // Star Rating
         RatingBar itemRating = (RatingBar) v.findViewById(R.id.item_rating);

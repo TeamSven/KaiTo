@@ -130,7 +130,12 @@ vandiRatingQuery.find({
 		{
 			var userId = list[i].get("userId");
 			var vandiId = list[i].get("vandiId");
-			if(userIdToVandiIdMap[userId] != undefined){
+console.log("first 1");
+console.log(userIdToVandiIdMap);
+console.log("second 2");
+console.log(userIdToVandiIdMap[userId]);
+console.log("userID"+userID+"vandiId"+vandiId);
+		if(userIdToVandiIdMap[userId] == undefined){
 			userIdToVandiIdMap[userId] = [vandiId];
 		}
 		else{

@@ -45,7 +45,7 @@ public class ReviewAdapter extends ParseQueryAdapter<VandiReview> {
 
         // Setting review
         TextView reviewText = (TextView) v.findViewById(R.id.review_text);
-        reviewText.setText(String.valueOf(review.getReview()));
+        reviewText.setText("\"" + review.getReview() + "\"");
 
         return v;
     }

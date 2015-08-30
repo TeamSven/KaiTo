@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
@@ -233,7 +234,20 @@ public class VandiDetailActivity extends AppCompatActivity {
                     vandiName.setText(vandi.getName());
                     vandiLocation.setText(vandi.getAddress());
                     vandiAverageRating.setRating((float) vandi.getAvgRating());
-                    //userRating.setRating();
+                    ParseQuery<ParseObject> userRatingQuery = ParseQuery.getQuery("VandiRating");
+                    userRatingQuery.whereEqualTo("vandiId", vandiId);
+                    userRatingQuery.whereEqualTo("userId", ParseUser.getCurrentUser().getObjectId());
+                    userRatingQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> list, ParseException e) {
+                            if (e == null) {
+                                for (ParseObject v : list) {
+                                    userRating.setRating(((VandiRating)v).getRating());
+                                }
+                            }
+                        }
+                    });
+
                     menu.setAdapter(new FoodItemAdapter(getApplicationContext(), vandiId));
                     kadaiReview.setAdapter(new ReviewAdapter(getApplicationContext(), vandiId));
                 }
