@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        android:textSize="10pt"
+        android:textSize="10dp"
         android:text="Item" />
 
     <RatingBar
         android:id="@+id/item_rating"
+        style = "?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:isIndicator="true"
