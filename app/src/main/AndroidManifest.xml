@@ -59,7 +59,7 @@
             android:name=".VandiDetailActivity_"
             android:label="@string/title_vandi_detail" />
         <activity
-            android:name=".Placesearch"
+            android:name=".Placesearch_"
             android:label="@string/title_activity_placesearch" >
         </activity>
     </application>

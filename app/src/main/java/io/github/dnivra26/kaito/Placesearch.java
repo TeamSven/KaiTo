@@ -1,11 +1,19 @@
 package io.github.dnivra26.kaito;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AutoCompleteTextView;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +26,15 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+@EActivity(R.layout.activity_placesearch)
 public class Placesearch extends AppCompatActivity {
 
+
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+
+    @ViewById(R.id.autocomplete)
+    AutoCompleteTextView autoCompleteTextView;
 
     private final String TAG = Placesearch.class.getSimpleName();
 
@@ -27,6 +42,9 @@ public class Placesearch extends AppCompatActivity {
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
     private static final String API_KEY = "AIzaSyBb7J_UT_iUe5IBpxzbrM_xN_Vw96QZuAI";
+
+    HandlerThread mHandlerThread;
+    Handler mThreadHandler;
 
 
     public ArrayList<String> autocomplete(String input) {
@@ -38,7 +56,6 @@ public class Placesearch extends AppCompatActivity {
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + API_KEY);
-            sb.append("&types=(cities)");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
@@ -52,10 +69,10 @@ public class Placesearch extends AppCompatActivity {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            //Log.e(TAG, "Error processing Places API URL", e);
+            Log.e(TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-            //Log.e(TAG, "Error connecting to Places API", e);
+            Log.e(TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
@@ -76,7 +93,7 @@ public class Placesearch extends AppCompatActivity {
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-            //Log.e(TAG, "Cannot process JSON results", e);
+            Log.e(TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
@@ -86,9 +103,12 @@ public class Placesearch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_placesearch);
-        AutoCompleteTextView autocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete);
-        autocompleteView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.autocomplete_list_item));
+
+
+    }
+
+    @AfterViews
+    public void init() {
 
     }
 
