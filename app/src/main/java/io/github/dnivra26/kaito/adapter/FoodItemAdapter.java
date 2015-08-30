@@ -21,7 +21,7 @@ public class FoodItemAdapter extends ParseQueryAdapter<FoodItem> {
         super(context, new ParseQueryAdapter.QueryFactory<FoodItem>() {
             public ParseQuery<FoodItem> create() {
                 ParseQuery query = new ParseQuery("FoodItem");
-                //query.whereEqualTo("vandiId", vandiId);
+                query.whereEqualTo("vandiId", vandiId);
                 return query;
             }
         });

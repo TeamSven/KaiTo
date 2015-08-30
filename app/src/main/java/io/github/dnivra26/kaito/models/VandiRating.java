@@ -27,7 +27,9 @@ public class VandiRating extends ParseObject {
         put("rating", rating);
     }
 
-    public void setUser(ParseUser parseUser) {
+    public void setUser(ParseUser parseUser)
+    {
+        put("userId",parseUser.getObjectId());
         put("user", parseUser);
     }
 
@@ -38,4 +40,5 @@ public class VandiRating extends ParseObject {
     public void setVandiId(String vandiId) {
         put("vandiId", vandiId);
     }
+
 }

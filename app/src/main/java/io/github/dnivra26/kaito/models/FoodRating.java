@@ -15,6 +15,9 @@ public class FoodRating extends ParseObject {
     }
 
     public void setUser(ParseUser parseUser) {
+
+        put("userId",parseUser.getObjectId());
+
         put("user", parseUser);
     }
 
