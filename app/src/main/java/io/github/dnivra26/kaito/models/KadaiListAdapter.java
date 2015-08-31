@@ -1,14 +1,8 @@
 package io.github.dnivra26.kaito.models;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.parse.GetDataCallback;
@@ -18,13 +12,8 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
 
 import io.github.dnivra26.kaito.R;
 
@@ -34,6 +23,7 @@ import io.github.dnivra26.kaito.R;
 public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
 
     private ParseGeoPoint currentGeoPoint;
+
     public KadaiListAdapter(Context context, ParseGeoPoint currentGeoPoint) {
 
         super(context, new ParseQueryAdapter.QueryFactory<Vandi>() {
@@ -73,8 +63,10 @@ public class KadaiListAdapter extends ParseQueryAdapter<Vandi> {
         TextView vandiLocation = (TextView) v
                 .findViewById(R.id.vandi_location);
         String[] addressParts = vandi.getAddress().split(",");
-        vandiLocation.setText(addressParts[addressParts.length-1]);
-
+        if (addressParts.length >= 2)
+            vandiLocation.setText(addressParts[addressParts.length - 1]);
+        else
+            vandiLocation.setText("un indentified");
 
         // Distance
         TextView vandiDistance = (TextView) v

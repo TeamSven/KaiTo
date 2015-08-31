@@ -136,7 +136,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         .position(new LatLng(location.getLatitude(), location.getLongitude()))
                                                 //.icon(BitmapDescriptorFactory.fromBitmap(createDrawableFromView(MapActivity.this, foodName)))
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_new))
-                                        .snippet("rating: " + fo.getAvgRating())
+                                        .snippet("shop: " + vandi.getName() + " .rating: " + fo.getAvgRating())
                                         .title(fo.getName()));
                             }
                         });
